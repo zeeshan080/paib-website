@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 import { Menu, Bot, User, LogOut } from "lucide-react"
 import { motion } from "framer-motion"
 import { signOutAction } from "@/lib/auth/actions"
@@ -47,7 +47,8 @@ export function Header({ user }: HeaderProps) {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex justify-center">
       <div className="container flex h-16 items-center">
         {/* Logo - Takes up 1/4 of the space */}
-        <div className="w-1/4">
+        <div className="w-full
+         md:w-1/4">
           <Link href="/" className="flex items-center space-x-2">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex items-center space-x-2">
               <div className="relative">
@@ -151,6 +152,7 @@ export function Header({ user }: HeaderProps) {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+              <SheetTitle className="text-left" hidden>Navigation</SheetTitle>
               <div className="flex flex-col space-y-4 mt-4">
                 {navigation.map((item) => (
                   <Link

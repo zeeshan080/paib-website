@@ -89,7 +89,7 @@ export function HeroSlider({ slides }: HeroSliderProps) {
 
           {/* Content */}
           <div className="relative z-10 h-full flex items-center">
-            <div className="container">
+            <div className="container mx-auto">
               <div className="max-w-4xl">
                 <motion.h1
                   initial={{ y: 50, opacity: 0 }}
@@ -136,9 +136,9 @@ export function HeroSlider({ slides }: HeroSliderProps) {
           </div>
 
           {/* Robot/AI Visual */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/3 h-1/2 opacity-20">
+          {/* <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/3 h-1/2 opacity-20">
             <Image src="/placeholder-vm9hh.png" alt="AI Robot" fill className="object-contain" />
-          </div>
+          </div> */}
         </motion.div>
       </AnimatePresence>
 

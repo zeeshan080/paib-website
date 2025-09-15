@@ -93,17 +93,36 @@ async function getHomePageData() {
 export default async function HomePage() {
   const data = await getHomePageData()
 
+  // Ensure arrays are never null for component props
+  const processedData = {
+    ...data,
+    featuredProjects: data.featuredProjects.map(project => ({
+      ...project,
+      tags: project.tags || [],
+      tech: project.tech || []
+    })),
+    featuredServices: data.featuredServices.map(service => ({
+      ...service,
+      tags: service.tags || []
+    })),
+    developers: data.developers.map(developer => ({
+      ...developer,
+      skills: developer.skills || []
+    }))
+  }
+
   return (
-    <MainLayout>
+    <MainLayout 
+      heroSlider={<HeroSlider slides={data.slides} />}
+    >
       <div className="min-h-screen">
-        <HeroSlider slides={data.slides} />
         <StatsSection stats={data.stats} />
         <FeaturedSections
-          projects={data.featuredProjects}
-          services={data.featuredServices}
+          projects={processedData.featuredProjects}
+          services={processedData.featuredServices}
           courses={data.latestCourses}
           management={data.managementTeam}
-          developers={data.developers}
+          developers={processedData.developers}
         />
       </div>
     </MainLayout>

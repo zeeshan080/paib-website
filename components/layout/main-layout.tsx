@@ -6,9 +6,10 @@ import { getCurrentUser } from "@/lib/auth/utils"
 
 interface MainLayoutProps {
   children: React.ReactNode
+  heroSlider?: React.ReactNode
 }
 
-export async function MainLayout({ children }: MainLayoutProps) {
+export async function MainLayout({ children, heroSlider }: MainLayoutProps) {
   const user = await getCurrentUser()
 
   // Ensure handle is always a string
@@ -19,8 +20,14 @@ export async function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col">
       <Header user={headerUser} />
-      <main className="flex-1">{children}</main>
-      <Footer />
+      {/* Hero slider is rendered outside the container for full width */}
+      {heroSlider}
+      <main className="flex-1 w-full mx-auto container">
+        {children}
+      </main>
+      <div className="w-full mx-auto">
+        <Footer />
+      </div>
     </div>
   )
 }
