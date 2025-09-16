@@ -15,9 +15,11 @@ import {
   Award,
   Code,
   Briefcase,
+  Edit,
 } from "lucide-react";
 import Link from "next/link";
 import { getDeveloperBySlug } from "@/lib/actions/developers";
+import { getCurrentUser } from "@/lib/auth/utils";
 import { MainLayout } from "@/components/layout/main-layout";
 
 type Developer = {
@@ -43,20 +45,20 @@ type Developer = {
   location?: string;
 };
 
-export default async function DeveloperProfilePage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function DeveloperProfilePage(props: { params: { slug: string } }) {
+  const { params } = await Promise.resolve(props);
   const developer: Developer | null = await getDeveloperBySlug(params.slug);
 
   if (!developer) {
     notFound();
   }
 
+  // Get current user to check if they can edit this profile
+  const currentUser = await getCurrentUser();
+  const isOwnProfile = currentUser?.id === developer.id;
+
   return (
     <MainLayout>
-      
         <div className="container mx-auto px-4 py-12">
           {/* Header */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
@@ -134,6 +136,20 @@ export default async function DeveloperProfilePage({
                     <Mail className="w-4 h-4 mr-2" />
                     Contact Developer
                   </Button>
+
+                  {/* Edit Profile Button - Only show if user is viewing their own profile */}
+                  {isOwnProfile && (
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="w-full mt-3 border-slate-600 text-slate-300 hover:bg-slate-700 bg-transparent"
+                    >
+                      <Link href="/profile/edit">
+                        <Edit className="w-4 h-4 mr-2" />
+                        Edit Profile
+                      </Link>
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             </div>

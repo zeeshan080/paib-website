@@ -132,3 +132,33 @@ export async function getDeveloperBySlug(slug: string) {
     return null
   }
 }
+
+export async function updateDeveloperProfile(
+  userId: string,
+  data: {
+    headline?: string
+    bio?: string
+    skills?: string[]
+    websiteUrl?: string
+    githubUrl?: string
+    linkedinUrl?: string
+    xUrl?: string
+    avatarUrl?: string
+  },
+) {
+  try {
+    const result = await db
+      .update(developerProfiles)
+      .set({
+        ...data,
+        updatedAt: new Date(),
+      })
+      .where(eq(developerProfiles.userId, userId))
+      .returning()
+
+    return { success: true, data: result[0] }
+  } catch (error) {
+    console.error("Error updating developer profile:", error)
+    return { success: false, error: "Failed to update profile" }
+  }
+}
