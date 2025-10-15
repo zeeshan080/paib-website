@@ -55,7 +55,7 @@ export function HeroSlider({ slides }: HeroSliderProps) {
           <h1 className="text-4xl md:text-6xl font-bold font-mono mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             PAIB
           </h1>
-          <p className="text-xl text-muted-foreground">Pakistan Artificial Intelligence Bureau</p>
+          <p className="text-xl text-muted-foreground">Pakistan Artificial Intelligence Builders</p>
         </div>
       </section>
     )

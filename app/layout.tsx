@@ -18,13 +18,13 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: "PAIB - Pakistan Artificial Intelligence Bureau",
+  title: "PAIB - Pakistan Artificial Intelligence Builders",
   description: "Leading Pakistan into the AI revolution with cutting-edge solutions and innovation",
   generator: "PAIB",
   keywords: ["AI", "Artificial Intelligence", "Pakistan", "Machine Learning", "Technology"],
   authors: [{ name: "PAIB Team" }],
   openGraph: {
-    title: "PAIB - Pakistan Artificial Intelligence Bureau",
+    title: "PAIB - Pakistan Artificial Intelligence Builders",
     description: "Leading Pakistan into the AI revolution with cutting-edge solutions and innovation",
     type: "website",
     locale: "en_US",

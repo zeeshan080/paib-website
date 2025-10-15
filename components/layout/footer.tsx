@@ -38,7 +38,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-muted-foreground mb-4 max-w-md">
-              Pakistan Artificial Intelligence Bureau - Leading Pakistan into the AI revolution with cutting-edge
+              Pakistan Artificial Intelligence Builders - Leading Pakistan into the AI revolution with cutting-edge
               solutions and innovation.
             </p>
             <div className="flex space-x-2">
@@ -126,7 +126,7 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-border/40 mt-8 pt-8 text-center text-muted-foreground text-sm">
-          <p>&copy; 2024 Pakistan Artificial Intelligence Bureau. All rights reserved.</p>
+          <p>&copy; 2024 Pakistan Artificial Intelligence Builders. All rights reserved.</p>
         </div>
       </div>
     </footer>

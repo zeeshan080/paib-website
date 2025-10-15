@@ -14,7 +14,7 @@ export default async function SignInPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">PAIB</h1>
-          <p className="text-purple-200">Pakistan Artificial Intelligence Bureau</p>
+          <p className="text-purple-200">Pakistan Artificial Intelligence Builders</p>
         </div>
         <SignInForm />
       </div>

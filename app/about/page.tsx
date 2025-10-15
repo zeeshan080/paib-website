@@ -7,7 +7,7 @@ import Link from "next/link"
 
 export const metadata = {
   title: "About Us - PAIB",
-  description: "Learn about Pakistan Artificial Intelligence Bureau's mission, vision, and journey in AI innovation.",
+  description: "Learn about Pakistan Artificial Intelligence Builders's mission, vision, and journey in AI innovation.",
 }
 
 const milestones = [
@@ -74,7 +74,7 @@ export default function AboutPage() {
                 About PAIB
               </h1>
               <p className="text-xl text-muted-foreground mb-8 text-pretty">
-                Pakistan Artificial Intelligence Bureau is pioneering the future of AI in Pakistan, creating innovative
+                Pakistan Artificial Intelligence Builders is pioneering the future of AI in Pakistan, creating innovative
                 solutions that transform businesses and empower the next generation of AI professionals.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

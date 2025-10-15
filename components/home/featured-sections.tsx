@@ -73,7 +73,7 @@ export function FeaturedSections({ projects, services, courses, management, deve
             About PAIB
           </h2>
           <p className="text-lg text-muted-foreground mb-8 text-pretty">
-            Pakistan Artificial Intelligence Bureau is at the forefront of AI innovation, developing cutting-edge
+            Pakistan Artificial Intelligence Builders is at the forefront of AI innovation, developing cutting-edge
             solutions that transform businesses and empower the next generation of AI professionals.
           </p>
           <Button asChild size="lg">
