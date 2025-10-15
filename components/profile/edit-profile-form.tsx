@@ -43,6 +43,7 @@ export function EditProfileForm({ initialData }: EditProfileFormProps) {
 
   const form = useForm<DeveloperProfileFormData>({
     resolver: zodResolver(developerProfileSchema),
+    mode: "onChange",
     defaultValues: {
       headline: initialData?.headline || "",
       bio: initialData?.bio || "",
@@ -64,12 +65,23 @@ export function EditProfileForm({ initialData }: EditProfileFormProps) {
       githubUrl: initialData?.githubUrl || "",
       linkedinUrl: initialData?.linkedinUrl || "",
       xUrl: initialData?.xUrl || "",
-      avatarUrl: initialData?.avatarUrl || "",
+      avatarUrl: initialData?.avatarUrl || undefined,
     },
   })
 
   const skills = form.watch("skills")
   const avatarUrl = form.watch("avatarUrl")
+  
+  // Debug form state
+  console.log("Form state:", {
+    isValid: form.formState.isValid,
+    errors: form.formState.errors,
+    values: form.getValues(),
+    isDirty: form.formState.isDirty,
+    isSubmitting: form.formState.isSubmitting,
+    avatarUrl: form.getValues("avatarUrl"),
+    avatarUrlError: form.formState.errors.avatarUrl
+  })
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -111,20 +123,28 @@ export function EditProfileForm({ initialData }: EditProfileFormProps) {
   }
 
   const onSubmit = async (data: DeveloperProfileFormData) => {
-    if (!initialData?.userId) return
+    if (!initialData?.userId) {
+      console.error("No user ID available")
+      return
+    }
 
+    console.log("Submitting form data:", data)
     setIsLoading(true)
+    
     try {
       const result = await updateDeveloperProfile(initialData.userId, data)
+      console.log("Update result:", result)
 
       if (result.success) {
-        router.push("/profile")
+        console.log("Profile updated successfully")
         router.refresh()
       } else {
         console.error("Update failed:", result.error)
+        alert(`Update failed: ${result.error}`)
       }
     } catch (error) {
       console.error("Form submission error:", error)
+      alert("An error occurred while updating your profile. Please try again.")
     } finally {
       setIsLoading(false)
     }
@@ -347,12 +367,31 @@ export function EditProfileForm({ initialData }: EditProfileFormProps) {
               />
             </div>
 
+            {/* Debug Section - Remove this after fixing */}
+            {Object.keys(form.formState.errors).length > 0 && (
+              <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                <h4 className="text-red-400 font-semibold mb-2">Form Validation Errors:</h4>
+                <ul className="text-red-300 text-sm space-y-1">
+                  {Object.entries(form.formState.errors).map(([field, error]) => (
+                    <li key={field}>
+                      <strong>{field}:</strong> {error?.message || 'Invalid'}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {/* Submit Button */}
             <div className="flex gap-4 pt-4">
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="flex-1 bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700"
+                className="flex-1 bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 disabled:opacity-50"
+                onClick={() => {
+                  console.log("Form errors:", form.formState.errors)
+                  console.log("Form values:", form.getValues())
+                  console.log("Form is valid:", form.formState.isValid)
+                }}
               >
                 {isLoading ? (
                   <>

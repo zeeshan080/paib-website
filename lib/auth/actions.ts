@@ -74,8 +74,8 @@ export async function signUpAction(formData: FormData) {
       })
     }
 
-    // Redirect to sign in page with success message
-    redirect("/auth/signin?message=Account created successfully")
+    // Return success instead of redirecting
+    return { success: true, message: "Account created successfully" }
   } catch (error) {
     if (error instanceof z.ZodError) {
       return { error: (error as z.ZodError).errors[0].message }
@@ -110,5 +110,5 @@ export async function signInAction(formData: FormData) {
 }
 
 export async function signOutAction() {
-  redirect("/api/auth/signout")
+  redirect("/")
 }

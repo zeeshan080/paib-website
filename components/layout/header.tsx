@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 import { Menu, Bot, User, LogOut } from "lucide-react"
 import { motion } from "framer-motion"
-import { signOutAction } from "@/lib/auth/actions"
+import { signOut } from "next-auth/react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -126,7 +126,7 @@ export function Header({ user }: HeaderProps) {
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer" onSelect={() => signOutAction()}>
+                <DropdownMenuItem className="cursor-pointer" onSelect={() => signOut({ callbackUrl: "/" })}>
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign out
                 </DropdownMenuItem>
@@ -166,21 +166,38 @@ export function Header({ user }: HeaderProps) {
                     {item.name}
                   </Link>
                 ))}
-                {!user && (
-                  <>
-                    <div className="border-t pt-4 space-y-2">
-                      <Button variant="ghost" asChild className="w-full justify-start">
-                        <Link href="/auth/signin" onClick={() => setIsOpen(false)}>
-                          Sign In
-                        </Link>
-                      </Button>
-                      <Button asChild className="w-full justify-start">
-                        <Link href="/auth/signup" onClick={() => setIsOpen(false)}>
-                          Sign Up
-                        </Link>
-                      </Button>
-                    </div>
-                  </>
+                {user ? (
+                  <div className="border-t pt-4 space-y-2">
+                    <Button variant="ghost" asChild className="w-full justify-start">
+                      <Link href="/profile" onClick={() => setIsOpen(false)}>
+                        My Profile
+                      </Link>
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start text-red-400 hover:text-red-300"
+                      onClick={() => {
+                        signOut({ callbackUrl: "/" })
+                        setIsOpen(false)
+                      }}
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sign out
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="border-t pt-4 space-y-2">
+                    <Button variant="ghost" asChild className="w-full justify-start">
+                      <Link href="/auth/signin" onClick={() => setIsOpen(false)}>
+                        Sign In
+                      </Link>
+                    </Button>
+                    <Button asChild className="w-full justify-start">
+                      <Link href="/auth/signup" onClick={() => setIsOpen(false)}>
+                        Sign Up
+                      </Link>
+                    </Button>
+                  </div>
                 )}
               </div>
             </SheetContent>

@@ -45,9 +45,9 @@ type Developer = {
   location?: string;
 };
 
-export default async function DeveloperProfilePage(props: { params: { slug: string } }) {
-  const { params } = await Promise.resolve(props);
-  const developer: Developer | null = await getDeveloperBySlug(params.slug);
+export default async function DeveloperProfilePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const developer: Developer | null = await getDeveloperBySlug(slug);
 
   if (!developer) {
     notFound();
