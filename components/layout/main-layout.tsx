@@ -22,7 +22,7 @@ export async function MainLayout({ children, heroSlider }: MainLayoutProps) {
       <Header user={headerUser} />
       {/* Hero slider is rendered outside the container for full width */}
       {heroSlider}
-      <main className="flex-1 w-full mx-auto container">
+      <main className="flex-1 w-full mx-auto container px-4 sm:px-6 lg:px-8">
         {children}
       </main>
       <div className="w-full mx-auto">

@@ -89,13 +89,13 @@ export function HeroSlider({ slides }: HeroSliderProps) {
 
           {/* Content */}
           <div className="relative z-10 h-full flex items-center">
-            <div className="container mx-auto">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <div className="max-w-4xl">
                 <motion.h1
                   initial={{ y: 50, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.8 }}
-                  className="text-4xl md:text-6xl lg:text-7xl font-bold font-mono mb-6 text-balance"
+                  className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold font-mono mb-4 sm:mb-6 text-balance px-2 sm:px-0"
                 >
                   <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                     {slides[currentSlide].title}
@@ -107,7 +107,7 @@ export function HeroSlider({ slides }: HeroSliderProps) {
                     initial={{ y: 50, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.4, duration: 0.8 }}
-                    className="text-xl md:text-2xl text-muted-foreground mb-8 text-pretty max-w-2xl"
+                    className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-6 sm:mb-8 text-pretty max-w-2xl px-2 sm:px-0"
                   >
                     {slides[currentSlide].subtitle}
                   </motion.p>
@@ -118,7 +118,7 @@ export function HeroSlider({ slides }: HeroSliderProps) {
                     initial={{ y: 50, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.6, duration: 0.8 }}
-                    className="flex flex-col sm:flex-row gap-4"
+                    className="flex flex-col sm:flex-row gap-3 sm:gap-4 px-2 sm:px-0"
                   >
                     <Button size="lg" asChild className="glow-border">
                       <Link href={slides[currentSlide].ctaHref!}>

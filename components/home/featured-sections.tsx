@@ -59,20 +59,20 @@ interface FeaturedSectionsProps {
 
 export function FeaturedSections({ projects, services, courses, management, developers }: FeaturedSectionsProps) {
   return (
-    <div className="py-16 space-y-16">
+    <div className="py-12 sm:py-16 space-y-12 sm:space-y-16">
       {/* About Teaser */}
-      <section className="container">
+      <section className="container px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center max-w-3xl mx-auto"
+          className="text-center max-w-3xl mx-auto px-2 sm:px-0"
         >
-          <h2 className="text-3xl md:text-4xl font-bold font-mono mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono mb-4 sm:mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             About PAIB
           </h2>
-          <p className="text-lg text-muted-foreground mb-8 text-pretty">
+          <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 text-pretty">
             Pakistan Artificial Intelligence Builders is at the forefront of AI innovation, developing cutting-edge
             solutions that transform businesses and empower the next generation of AI professionals.
           </p>
@@ -86,9 +86,9 @@ export function FeaturedSections({ projects, services, courses, management, deve
       </section>
 
       {/* Featured Projects */}
-      <section className="container">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold font-mono">Featured Projects</h2>
+      <section className="container px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+          <h2 className="text-2xl sm:text-3xl font-bold font-mono">Featured Projects</h2>
           <Button variant="outline" asChild>
             <Link href="/projects">
               View All Projects
@@ -96,7 +96,7 @@ export function FeaturedSections({ projects, services, courses, management, deve
             </Link>
           </Button>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
@@ -145,9 +145,9 @@ export function FeaturedSections({ projects, services, courses, management, deve
       </section>
 
       {/* Featured Services */}
-      <section className="container">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold font-mono">Our Services</h2>
+      <section className="container px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+          <h2 className="text-2xl sm:text-3xl font-bold font-mono">Our Services</h2>
           <Button variant="outline" asChild>
             <Link href="/services">
               View All Services
@@ -155,7 +155,7 @@ export function FeaturedSections({ projects, services, courses, management, deve
             </Link>
           </Button>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {services.map((service, index) => (
             <motion.div
               key={service.id}
@@ -199,9 +199,9 @@ export function FeaturedSections({ projects, services, courses, management, deve
       </section>
 
       {/* Latest Courses */}
-      <section className="container">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold font-mono">Latest Courses</h2>
+      <section className="container px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+          <h2 className="text-2xl sm:text-3xl font-bold font-mono">Latest Courses</h2>
           <Button variant="outline" asChild>
             <Link href="/courses">
               View All Courses
@@ -209,7 +209,7 @@ export function FeaturedSections({ projects, services, courses, management, deve
             </Link>
           </Button>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {courses.map((course, index) => (
             <motion.div
               key={course.id}
@@ -264,9 +264,9 @@ export function FeaturedSections({ projects, services, courses, management, deve
       </section>
 
       {/* Management Team */}
-      <section className="container">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold font-mono">Leadership Team</h2>
+      <section className="container px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+          <h2 className="text-2xl sm:text-3xl font-bold font-mono">Leadership Team</h2>
           <Button variant="outline" asChild>
             <Link href="/management">
               Meet the Team
@@ -274,7 +274,7 @@ export function FeaturedSections({ projects, services, courses, management, deve
             </Link>
           </Button>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {management.map((member, index) => (
             <motion.div
               key={member.id}
@@ -315,9 +315,9 @@ export function FeaturedSections({ projects, services, courses, management, deve
       </section>
 
       {/* Developers */}
-      <section className="container">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold font-mono">Our Developers</h2>
+      <section className="container px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+          <h2 className="text-2xl sm:text-3xl font-bold font-mono">Our Developers</h2>
           <Button variant="outline" asChild>
             <Link href="/developers">
               View All Developers
@@ -325,7 +325,7 @@ export function FeaturedSections({ projects, services, courses, management, deve
             </Link>
           </Button>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {developers.map((developer, index) => (
             <motion.div
               key={developer.id}

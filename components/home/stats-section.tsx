@@ -67,9 +67,9 @@ export function StatsSection({ stats }: StatsProps) {
   ]
 
   return (
-    <section className="py-16 bg-card/30 border-y border-border/40">
-      <div className="container">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+    <section className="py-12 sm:py-16 bg-card/30 border-y border-border/40">
+      <div className="container px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {statsData.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -77,16 +77,16 @@ export function StatsSection({ stats }: StatsProps) {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-center"
+              className="text-center px-2"
             >
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
-                <stat.icon className="h-6 w-6 text-primary" />
+              <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 mb-3 sm:mb-4">
+                <stat.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               </div>
-              <div className="text-3xl md:text-4xl font-bold font-mono text-primary mb-2">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono text-primary mb-1 sm:mb-2">
                 <AnimatedCounter end={stat.value} />
                 {stat.suffix}
               </div>
-              <div className="text-muted-foreground">{stat.label}</div>
+              <div className="text-sm sm:text-base text-muted-foreground">{stat.label}</div>
             </motion.div>
           ))}
         </div>

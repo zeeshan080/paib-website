@@ -45,17 +45,16 @@ export function Header({ user }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex justify-center">
-      <div className="container flex h-16 items-center">
+      <div className="container flex h-16 items-center px-4 sm:px-6 lg:px-8">
         {/* Logo - Takes up 1/4 of the space */}
-        <div className="w-full
-         md:w-1/4">
+        <div className="w-full md:w-1/4">
           <Link href="/" className="flex items-center space-x-2">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex items-center space-x-2">
               <div className="relative">
-                <Bot className="h-8 w-8 text-primary" />
-                <div className="absolute inset-0 h-8 w-8 bg-primary/20 rounded-full blur-md" />
+                <Bot className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
+                <div className="absolute inset-0 h-6 w-6 sm:h-8 sm:w-8 bg-primary/20 rounded-full blur-md" />
               </div>
-              <span className="font-mono text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <span className="font-mono text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 PAIB
               </span>
             </motion.div>
