@@ -2,9 +2,10 @@ import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, FolderOpen, BookOpen, Briefcase, MessageSquare, Settings } from "lucide-react"
+import { Users, FolderOpen, BookOpen, Briefcase, MessageSquare, Settings, UserPlus } from "lucide-react"
 import Link from "next/link"
 import { getAdminStats } from "@/lib/actions/admin"
+import { MainLayout } from "@/components/layout/main-layout"
 
 export default async function AdminDashboard() {
   const session = await getServerSession(authOptions)
@@ -16,7 +17,8 @@ export default async function AdminDashboard() {
   const stats = await getAdminStats()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
+    <MainLayout>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -79,6 +81,20 @@ export default async function AdminDashboard() {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Link href="/auth/create-user">
+            <Card className="bg-slate-800/50 border-slate-700 hover:border-purple-500/50 transition-all duration-300 cursor-pointer group">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-white group-hover:text-purple-400 transition-colors">
+                  <UserPlus className="w-6 h-6" />
+                  Create User Account
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-400">Create new user accounts for developers and team members</p>
+              </CardContent>
+            </Card>
+          </Link>
+
           <Link href="/admin/users">
             <Card className="bg-slate-800/50 border-slate-700 hover:border-purple-500/50 transition-all duration-300 cursor-pointer group">
               <CardHeader>
@@ -149,21 +165,9 @@ export default async function AdminDashboard() {
             </Card>
           </Link>
 
-          <Link href="/admin/settings">
-            <Card className="bg-slate-800/50 border-slate-700 hover:border-slate-500/50 transition-all duration-300 cursor-pointer group">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-white group-hover:text-slate-400 transition-colors">
-                  <Settings className="w-6 h-6" />
-                  Site Settings
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-slate-400">Configure site-wide settings and preferences</p>
-              </CardContent>
-            </Card>
-          </Link>
         </div>
       </div>
     </div>
+    </MainLayout>
   )
 }

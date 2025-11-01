@@ -1,26 +1,44 @@
 import { MainLayout } from "@/components/layout/main-layout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Linkedin, Twitter, Mail, ExternalLink } from "lucide-react"
 import Link from "next/link"
-import { db } from "@/lib/db"
-import { management } from "@/lib/db/schema"
-import { eq } from "drizzle-orm"
+import Image from "next/image"
 
 export const metadata = {
   title: "Management Team - PAIB",
   description: "Meet the leadership team driving Pakistan's AI revolution at PAIB.",
 }
 
-async function getManagementTeam() {
-  return await db.select().from(management).where(eq(management.isActive, true)).orderBy(management.order)
-}
+// Management team data with images and information
+const managementTeamData = [
+  {
+    image: "/gallery/gallery1.jpeg",
+    name: "Ch Tariq Mehmood Proya",
+    position: "Chairman/Executive Director"
+  },
+  {
+    image: "/gallery/gallery2.jpeg",
+    name: "Mian Muhammad Asif Langrah",
+    position: "Managing Director/Director Trainings & Program"
+  },
+  {
+    image: "/gallery/gallery3.jpeg",
+    name: "Rimsha Tariq",
+    position: "Director PR & Coordiation"
+  },
+  {
+    image: "/gallery/gallery4.jpeg",
+    name: "Squadron Leader(R) Mohammad Iqbal Khan",
+    position: "Director Admin & HR"
+  },
+  {
+    image: "/gallery/gallery5.jpeg",
+    name: "Bashir Ahmed Azad",
+    position: "Director Public & Social Affairs"
+  }
+]
 
 export default async function ManagementPage() {
-  const team = await getManagementTeam()
-
   return (
     <MainLayout>
       <div className="min-h-screen">
@@ -40,67 +58,28 @@ export default async function ManagementPage() {
           </div>
         </section>
 
-        {/* Team Grid */}
+        {/* Management Team Cards */}
         <section className="py-16">
           <div className="container">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {team.map((member) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {managementTeamData.map((member, idx) => (
                 <Card
-                  key={member.id}
-                  className="group hover:shadow-xl transition-all duration-300 border-border/40 bg-card/50 backdrop-blur-sm"
+                  key={idx}
+                  className="group hover:shadow-xl transition-all duration-300 border-border/40 bg-card/50 backdrop-blur-sm flex flex-col overflow-hidden"
                 >
-                  <CardHeader className="text-center">
-                    <div className="mx-auto mb-6">
-                      <Avatar className="h-32 w-32 ring-4 ring-primary/20 group-hover:ring-primary/40 transition-all">
-                        <AvatarImage src={member.imageUrl || ""} alt={member.name} />
-                        <AvatarFallback className="text-2xl bg-primary/10">
-                          {member.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
-                        </AvatarFallback>
-                      </Avatar>
-                    </div>
-                    <CardTitle className="text-2xl mb-2">{member.name}</CardTitle>
-                    <Badge variant="outline" className="mb-4 text-primary border-primary/40">
-                      {member.roleTitle}
-                    </Badge>
-                  </CardHeader>
-                  <CardContent className="text-center">
-                    <p className="text-muted-foreground mb-6 leading-relaxed">{member.bio}</p>
-
-                    {/* Social Links */}
-                    <div className="flex justify-center space-x-2 mb-6">
-                      {member.linkedinUrl && (
-                        <Button variant="ghost" size="icon" asChild>
-                          <Link href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
-                            <Linkedin className="h-4 w-4" />
-                            <span className="sr-only">LinkedIn</span>
-                          </Link>
-                        </Button>
-                      )}
-                      {member.twitterUrl && (
-                        <Button variant="ghost" size="icon" asChild>
-                          <Link href={member.twitterUrl} target="_blank" rel="noopener noreferrer">
-                            <Twitter className="h-4 w-4" />
-                            <span className="sr-only">Twitter</span>
-                          </Link>
-                        </Button>
-                      )}
-                      <Button variant="ghost" size="icon" asChild>
-                        <Link href="/contact">
-                          <Mail className="h-4 w-4" />
-                          <span className="sr-only">Contact</span>
-                        </Link>
-                      </Button>
-                    </div>
-
-                    <Button variant="outline" size="sm" asChild className="w-full bg-transparent">
-                      <Link href={`/management/${member.slug}`}>
-                        View Full Profile
-                        <ExternalLink className="ml-2 h-3 w-3" />
-                      </Link>
-                    </Button>
+                  <div className="relative aspect-[4/3] w-full">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      className="object-cover transition-transform hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      priority={idx === 0}
+                    />
+                  </div>
+                  <CardContent className="p-4 flex-1 flex flex-col justify-center">
+                    <h3 className="font-semibold text-lg mb-2 text-center">{member.name}</h3>
+                    <p className="text-sm text-muted-foreground text-center">{member.position}</p>
                   </CardContent>
                 </Card>
               ))}

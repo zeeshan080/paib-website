@@ -4,10 +4,10 @@ import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ArrowRight, ExternalLink, Clock } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { GalleryCarousel } from "./gallery-carousel"
 
 interface FeaturedSectionsProps {
   projects: Array<{
@@ -39,25 +39,9 @@ interface FeaturedSectionsProps {
     price: number | null
     thumbnailUrl: string | null
   }>
-  management: Array<{
-    id: string
-    slug: string
-    name: string
-    roleTitle: string
-    bio: string | null
-    imageUrl: string | null
-  }>
-  developers: Array<{
-    id: string
-    name: string | null
-    handle: string | null
-    image: string | null
-    headline: string | null
-    skills: string[]
-  }>
 }
 
-export function FeaturedSections({ projects, services, courses, management, developers }: FeaturedSectionsProps) {
+export function FeaturedSections({ projects, services, courses }: FeaturedSectionsProps) {
   return (
     <div className="py-12 sm:py-16 space-y-12 sm:space-y-16">
       {/* About Teaser */}
@@ -263,108 +247,8 @@ export function FeaturedSections({ projects, services, courses, management, deve
         </div>
       </section>
 
-      {/* Management Team */}
-      <section className="container px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
-          <h2 className="text-2xl sm:text-3xl font-bold font-mono">Leadership Team</h2>
-          <Button variant="outline" asChild>
-            <Link href="/management">
-              Meet the Team
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {management.map((member, index) => (
-            <motion.div
-              key={member.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <Card className="text-center hover:shadow-lg transition-shadow border-border/40 bg-card/50 backdrop-blur-sm">
-                <CardHeader>
-                  <div className="mx-auto mb-4">
-                    <Avatar className="h-20 w-20">
-                      <AvatarImage src={member.imageUrl || ""} alt={member.name} />
-                      <AvatarFallback className="text-lg bg-primary/10">
-                        {member.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </AvatarFallback>
-                    </Avatar>
-                  </div>
-                  <CardTitle>{member.name}</CardTitle>
-                  <CardDescription className="text-primary font-medium">{member.roleTitle}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground line-clamp-3 mb-4">{member.bio}</p>
-                  <Button variant="ghost" size="sm" asChild>
-                    <Link href={`/management/${member.slug}`}>
-                      View Profile
-                      <ArrowRight className="ml-1 h-3 w-3" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Developers */}
-      <section className="container px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
-          <h2 className="text-2xl sm:text-3xl font-bold font-mono">Our Developers</h2>
-          <Button variant="outline" asChild>
-            <Link href="/developers">
-              View All Developers
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {developers.map((developer, index) => (
-            <motion.div
-              key={developer.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <Card className="text-center hover:shadow-lg transition-shadow border-border/40 bg-card/50 backdrop-blur-sm">
-                <CardHeader>
-                  <div className="mx-auto mb-4">
-                    <Avatar className="h-16 w-16">
-                      <AvatarImage src={developer.image || ""} alt={developer.name || ""} />
-                      <AvatarFallback className="bg-primary/10">{developer.name?.charAt(0) || "D"}</AvatarFallback>
-                    </Avatar>
-                  </div>
-                  <CardTitle>{developer.name}</CardTitle>
-                  <CardDescription>{developer.headline}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-1 justify-center mb-4">
-                    {developer.skills.slice(0, 3).map((skill) => (
-                      <Badge key={skill} variant="secondary" className="text-xs">
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
-                  <Button variant="ghost" size="sm" asChild>
-                    <Link href={`/developers/${developer.handle}`}>
-                      View Profile
-                      <ArrowRight className="ml-1 h-3 w-3" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+      {/* Gallery Carousel */}
+      <GalleryCarousel />
     </div>
   )
 }

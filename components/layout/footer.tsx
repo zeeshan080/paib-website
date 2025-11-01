@@ -24,10 +24,10 @@ const footerLinks = {
 export function Footer() {
   return (
     <footer className="border-t border-border/40 bg-card/50 w-full">
-      <div className="container py-12 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+      <div className="container py-6 sm:py-8 lg:py-12 mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8">
           {/* Brand */}
-          <div className="lg:col-span-2">
+          <div className="sm:col-span-2 lg:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-4">
               <div className="relative">
                 <Bot className="h-8 w-8 text-primary" />
@@ -37,7 +37,7 @@ export function Footer() {
                 PAIB
               </span>
             </Link>
-            <p className="text-muted-foreground mb-4 max-w-md">
+            <p className="text-muted-foreground mb-4 max-w-md text-sm sm:text-base">
               Pakistan Artificial Intelligence Builders - Leading Pakistan into the AI revolution with cutting-edge
               solutions and innovation.
             </p>
@@ -111,21 +111,21 @@ export function Footer() {
         </div>
 
         {/* Newsletter */}
-        <div className="border-t border-border/40 mt-8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div>
+        <div className="border-t border-border/40 mt-6 sm:mt-8 pt-6 sm:pt-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+            <div className="w-full sm:w-auto">
               <h3 className="font-semibold mb-2">Stay updated</h3>
               <p className="text-muted-foreground text-sm">Get the latest AI insights and updates from PAIB.</p>
             </div>
-            <div className="flex space-x-2 w-full md:w-auto">
-              <Input type="email" placeholder="Enter your email" className="md:w-64" />
-              <Button>Subscribe</Button>
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
+              <Input type="email" placeholder="Enter your email" className="w-full sm:w-64" />
+              <Button className="w-full sm:w-auto">Subscribe</Button>
             </div>
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-border/40 mt-8 pt-8 text-center text-muted-foreground text-sm">
+        <div className="border-t border-border/40 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-muted-foreground text-sm">
           <p>&copy; 2024 Pakistan Artificial Intelligence Builders. All rights reserved.</p>
         </div>
       </div>

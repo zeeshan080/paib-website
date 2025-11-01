@@ -3,27 +3,38 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth/config"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
+import { Users } from "lucide-react"
 import Link from "next/link"
-import { getProjectsForAdmin } from "@/lib/actions/admin"
+import { getUsersForAdmin } from "@/lib/actions/admin"
 import { MainLayout } from "@/components/layout/main-layout"
-import { ProjectsTable } from "@/components/admin/projects-table"
+import { UsersTable } from "@/components/admin/users-table"
 import { SearchForm } from "@/components/admin/search-form"
+import { db } from "@/lib/db"
+import { users } from "@/lib/db/schema"
+import { eq } from "drizzle-orm"
 
-export default async function AdminProjectsPage({
+async function handleDeleteUser(userId: string) {
+  "use server"
+  try {
+    await db.delete(users).where(eq(users.id, userId))
+  } catch (error) {
+    console.error("Error deleting user:", error)
+    throw new Error("Failed to delete user")
+  }
+}
+
+export default async function AdminUsersPage({
   searchParams = { search: undefined },
 }: {
   searchParams?: { search?: string }
 }) {
-  // Use getServerSession with authOptions
   const session = await getServerSession(authOptions)
 
   if (!session?.user || session.user.role !== "ADMIN") {
     redirect("/unauthorized")
   }
 
-  // Use optional chaining to safely access searchParams.search
-  const projects = await getProjectsForAdmin(searchParams?.search)
+  const allUsers = await getUsersForAdmin(searchParams?.search)
 
   return (
     <MainLayout>
@@ -33,31 +44,31 @@ export default async function AdminProjectsPage({
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-teal-400 bg-clip-text text-transparent mb-2">
-              Manage Projects
+              Manage Users
             </h1>
-            <p className="text-slate-300">Create and manage project showcases</p>
+            <p className="text-slate-300">View and manage user accounts, roles, and permissions</p>
           </div>
           <Button
             asChild
             className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700"
           >
-            <Link href="/admin/projects/new">
-              <Plus className="w-4 h-4 mr-2" />
-              Add Project
+            <Link href="/auth/create-user">
+              <Users className="w-4 h-4 mr-2" />
+              Add User
             </Link>
           </Button>
         </div>
 
         {/* Search */}
-        <SearchForm placeholder="Search projects..." />
+        <SearchForm placeholder="Search users..." />
 
-        {/* Projects Table */}
+          {/* Users Table */}
         <Card className="bg-slate-800/50 border-slate-700">
           <CardHeader>
-            <CardTitle className="text-white">Projects ({projects.length})</CardTitle>
+            <CardTitle className="text-white">Users ({allUsers.length})</CardTitle>
           </CardHeader>
           <CardContent>
-            <ProjectsTable projects={projects} />
+            <UsersTable allUsers={allUsers} onDelete={handleDeleteUser} />
           </CardContent>
         </Card>
       </div>
@@ -65,3 +76,4 @@ export default async function AdminProjectsPage({
     </MainLayout>
   )
 }
+

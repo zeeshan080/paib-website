@@ -5,25 +5,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import Link from "next/link"
-import { getProjectsForAdmin } from "@/lib/actions/admin"
+import { getCoursesForAdmin, deleteCourse } from "@/lib/actions/admin"
 import { MainLayout } from "@/components/layout/main-layout"
-import { ProjectsTable } from "@/components/admin/projects-table"
+import { CoursesTable } from "@/components/admin/courses-table"
 import { SearchForm } from "@/components/admin/search-form"
 
-export default async function AdminProjectsPage({
+async function handleDeleteCourse(courseId: string) {
+  "use server"
+  await deleteCourse(courseId)
+}
+
+export default async function AdminCoursesPage({
   searchParams = { search: undefined },
 }: {
   searchParams?: { search?: string }
 }) {
-  // Use getServerSession with authOptions
   const session = await getServerSession(authOptions)
 
   if (!session?.user || session.user.role !== "ADMIN") {
     redirect("/unauthorized")
   }
 
-  // Use optional chaining to safely access searchParams.search
-  const projects = await getProjectsForAdmin(searchParams?.search)
+  const courses = await getCoursesForAdmin(searchParams?.search)
 
   return (
     <MainLayout>
@@ -33,31 +36,31 @@ export default async function AdminProjectsPage({
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-teal-400 bg-clip-text text-transparent mb-2">
-              Manage Projects
+              Manage Courses
             </h1>
-            <p className="text-slate-300">Create and manage project showcases</p>
+            <p className="text-slate-300">Create and manage educational content and courses</p>
           </div>
           <Button
             asChild
-            className="bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700"
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
           >
-            <Link href="/admin/projects/new">
+            <Link href="/admin/courses/new">
               <Plus className="w-4 h-4 mr-2" />
-              Add Project
+              Add Course
             </Link>
           </Button>
         </div>
 
         {/* Search */}
-        <SearchForm placeholder="Search projects..." />
+        <SearchForm placeholder="Search courses..." />
 
-        {/* Projects Table */}
+          {/* Courses Table */}
         <Card className="bg-slate-800/50 border-slate-700">
           <CardHeader>
-            <CardTitle className="text-white">Projects ({projects.length})</CardTitle>
+            <CardTitle className="text-white">Courses ({courses.length})</CardTitle>
           </CardHeader>
           <CardContent>
-            <ProjectsTable projects={projects} />
+            <CoursesTable courses={courses} onDelete={handleDeleteCourse} />
           </CardContent>
         </Card>
       </div>
@@ -65,3 +68,4 @@ export default async function AdminProjectsPage({
     </MainLayout>
   )
 }
+

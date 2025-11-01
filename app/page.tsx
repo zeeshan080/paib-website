@@ -3,7 +3,7 @@ import { HeroSlider } from "@/components/home/hero-slider"
 import { StatsSection } from "@/components/home/stats-section"
 import { FeaturedSections } from "@/components/home/featured-sections"
 import { db } from "@/lib/db"
-import { heroSlides, projects, services, courses, management, users, developerProfiles } from "@/lib/db/schema"
+import { heroSlides, projects, services, courses, users } from "@/lib/db/schema"
 import { eq, desc } from "drizzle-orm"
 
 async function getHomePageData() {
@@ -44,29 +44,6 @@ async function getHomePageData() {
     .orderBy(desc(courses.publishedAt))
     .limit(3)
 
-  // Get management team
-  const managementTeam = await db
-    .select()
-    .from(management)
-    .where(eq(management.isActive, true))
-    .orderBy(management.order)
-    .limit(3)
-
-  // Get developers
-  const developers = await db
-    .select({
-      id: users.id,
-      name: users.name,
-      handle: users.handle,
-      image: users.image,
-      headline: developerProfiles.headline,
-      skills: developerProfiles.skills,
-    })
-    .from(users)
-    .leftJoin(developerProfiles, eq(users.id, developerProfiles.userId))
-    .where(eq(users.role, "DEVELOPER"))
-    .limit(3)
-
   // Get stats
   const stats = {
     projects: await db.select().from(projects).where(eq(projects.status, "PUBLISHED")),
@@ -79,8 +56,6 @@ async function getHomePageData() {
     featuredProjects,
     featuredServices,
     latestCourses,
-    managementTeam,
-    developers,
     stats: {
       projects: stats.projects.length,
       developers: stats.developers.length,
@@ -104,10 +79,6 @@ export default async function HomePage() {
     featuredServices: data.featuredServices.map(service => ({
       ...service,
       tags: service.tags || []
-    })),
-    developers: data.developers.map(developer => ({
-      ...developer,
-      skills: developer.skills || []
     }))
   }
 
@@ -121,8 +92,6 @@ export default async function HomePage() {
           projects={processedData.featuredProjects}
           services={processedData.featuredServices}
           courses={data.latestCourses}
-          management={data.managementTeam}
-          developers={processedData.developers}
         />
       </div>
     </MainLayout>
