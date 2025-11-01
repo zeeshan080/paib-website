@@ -7,7 +7,7 @@ export const developerProfileSchema = z.object({
   websiteUrl: z.string().url("Invalid website URL").or(z.literal("")).optional(),
   githubUrl: z.string().url("Invalid GitHub URL").or(z.literal("")).optional(),
   linkedinUrl: z.string().url("Invalid LinkedIn URL").or(z.literal("")).optional(),
-  xUrl: z.string().url("Invalid X/Twitter URL").or(z.literal("")).optional(),
+  xUrl: z.string().url("Invalid Facebook URL").or(z.literal("")).optional(),
   avatarUrl: z.string().optional().or(z.literal("")),
 })
 

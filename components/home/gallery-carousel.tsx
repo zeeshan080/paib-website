@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
@@ -35,13 +36,48 @@ const managementTeam = [
 
 interface GalleryCarouselProps {
   imagesPerView?: number
+  autoScrollInterval?: number
 }
 
 export function GalleryCarousel({ 
-  imagesPerView = 3
+  imagesPerView = 3,
+  autoScrollInterval = 3000
 }: GalleryCarouselProps = {}) {
-  // Display all team members, but limit the grid based on imagesPerView prop
-  const displayItems = managementTeam.slice(0, imagesPerView === 4 ? 4 : managementTeam.length)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const totalImages = managementTeam.length
+
+  // Auto-scroll functionality - cycles through all images
+  useEffect(() => {
+    if (totalImages <= imagesPerView) {
+      // If we have fewer or equal images than the view, no need to scroll
+      return
+    }
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => {
+        // Move to the next image, wrapping around to the beginning
+        return (prevIndex + 1) % totalImages
+      })
+    }, autoScrollInterval)
+
+    return () => clearInterval(interval)
+  }, [totalImages, imagesPerView, autoScrollInterval])
+
+  // Get the current set of images to display
+  const getCurrentImages = () => {
+    const images = []
+    const count = Math.min(imagesPerView, totalImages) // Don't exceed available images
+    
+    for (let i = 0; i < count; i++) {
+      const index = (currentIndex + i) % totalImages
+      images.push({
+        ...managementTeam[index],
+        index: index,
+        id: `img-${index}-view-${currentIndex}-${i}`
+      })
+    }
+    return images
+  }
 
   return (
     <section className="container px-4 sm:px-6 lg:px-8">
@@ -49,9 +85,9 @@ export function GalleryCarousel({
         <h2 className="text-2xl sm:text-3xl font-bold font-mono">Management Team</h2>
       </div>
       <div className={`grid grid-cols-1 sm:grid-cols-2 ${imagesPerView === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'} gap-4 sm:gap-6`}>
-        {managementTeam.map((member, idx) => (
+        {getCurrentImages().map((member, idx) => (
           <motion.div
-            key={idx}
+            key={member.id}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: idx * 0.1 }}

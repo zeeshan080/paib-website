@@ -71,7 +71,6 @@ export async function getDeveloperProfiles({
     return result.map((dev) => ({
       ...dev,
       skills: Array.isArray(dev.skills) ? dev.skills : JSON.parse(dev.skills || "[]"),
-      specializations: [], // Default empty array since column doesn't exist
     }))
   } catch (error) {
     console.error("Error fetching developer profiles:", error)
@@ -121,7 +120,6 @@ export async function getDeveloperBySlug(slug: string) {
     return {
       ...developer,
       skills: Array.isArray(developer.skills) ? developer.skills : JSON.parse(developer.skills || "[]"),
-      specializations: [], // Default empty array since column doesn't exist
       projects: developerProjects.map((project) => ({
         ...project,
         technologies: Array.isArray(project.technologies) ? project.technologies : JSON.parse(project.technologies || "[]"),

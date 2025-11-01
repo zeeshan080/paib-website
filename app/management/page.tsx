@@ -61,11 +61,11 @@ export default async function ManagementPage() {
         {/* Management Team Cards */}
         <section className="py-16">
           <div className="container">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="flex flex-wrap justify-center gap-6 sm:gap-8">
               {managementTeamData.map((member, idx) => (
                 <Card
                   key={idx}
-                  className="group hover:shadow-xl transition-all duration-300 border-border/40 bg-card/50 backdrop-blur-sm flex flex-col overflow-hidden"
+                  className="group hover:shadow-xl transition-all duration-300 border-border/40 bg-card/50 backdrop-blur-sm flex flex-col overflow-hidden w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm"
                 >
                   <div className="relative aspect-[4/3] w-full">
                     <Image
