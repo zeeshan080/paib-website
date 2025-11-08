@@ -24,7 +24,7 @@ const managementTeamData = [
   {
     image: "/gallery/gallery3.jpeg",
     name: "Rimsha Tariq",
-    position: "Director PR & Coordiation"
+    position: "Director PR & Coordination"
   },
   {
     image: "/gallery/gallery4.jpeg",

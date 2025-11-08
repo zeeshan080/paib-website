@@ -6,12 +6,12 @@ import { eq, ilike, and, or } from "drizzle-orm"
 
 export async function getDeveloperProfiles({
   search,
-  specialization,
-  experience,
+  limit = 12,
+  offset = 0,
 }: {
   search?: string
-  specialization?: string
-  experience?: string
+  limit?: number
+  offset?: number
 } = {}) {
   try {
     const conditions = []
@@ -26,47 +26,32 @@ export async function getDeveloperProfiles({
       )
     }
 
-    // Build the query conditionally
-    let query
+    // Build the query
+    let query = db
+      .select({
+        id: developerProfiles.userId,
+        name: users.name,
+        title: developerProfiles.headline,
+        bio: developerProfiles.bio,
+        avatar: developerProfiles.avatarUrl,
+        skills: developerProfiles.skills,
+        github: developerProfiles.githubUrl,
+        linkedin: developerProfiles.linkedinUrl,
+        twitter: developerProfiles.xUrl,
+        website: developerProfiles.websiteUrl,
+        slug: users.handle,
+      })
+      .from(developerProfiles)
+      .leftJoin(users, eq(developerProfiles.userId, users.id))
 
     if (conditions.length > 0) {
-      query = db
-        .select({
-          id: developerProfiles.userId,
-          name: users.name,
-          title: developerProfiles.headline,
-          bio: developerProfiles.bio,
-          avatar: developerProfiles.avatarUrl,
-          skills: developerProfiles.skills,
-          github: developerProfiles.githubUrl,
-          linkedin: developerProfiles.linkedinUrl,
-          twitter: developerProfiles.xUrl,
-          website: developerProfiles.websiteUrl,
-          slug: users.handle,
-        })
-        .from(developerProfiles)
-        .leftJoin(users, eq(developerProfiles.userId, users.id))
-        .where(and(...conditions))
-    } else {
-      query = db
-        .select({
-          id: developerProfiles.userId,
-          name: users.name,
-          title: developerProfiles.headline,
-          bio: developerProfiles.bio,
-          avatar: developerProfiles.avatarUrl,
-          skills: developerProfiles.skills,
-          github: developerProfiles.githubUrl,
-          linkedin: developerProfiles.linkedinUrl,
-          twitter: developerProfiles.xUrl,
-          website: developerProfiles.websiteUrl,
-          slug: users.handle,
-        })
-        .from(developerProfiles)
-        .leftJoin(users, eq(developerProfiles.userId, users.id))
+      query = query.where(and(...conditions))
     }
 
-    const result = await query.orderBy(users.name)
+    const result = await query
+      .orderBy(users.name)
+      .limit(limit)
+      .offset(offset)
 
     return result.map((dev) => ({
       ...dev,
