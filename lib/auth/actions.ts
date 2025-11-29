@@ -16,6 +16,7 @@ const signUpSchema = z.object({
     .min(3, "Handle must be at least 3 characters")
     .regex(/^[a-zA-Z0-9-_]+$/, "Handle can only contain letters, numbers, hyphens, and underscores"),
   role: z.enum(["DEVELOPER", "VIEWER"]),
+  isActive: z.boolean().optional(),
 })
 
 const signInSchema = z.object({
@@ -31,6 +32,7 @@ export async function signUpAction(formData: FormData) {
       password: formData.get("password") as string,
       handle: formData.get("handle") as string,
       role: formData.get("role") as "DEVELOPER" | "VIEWER",
+      isActive: formData.get("isActive") === "true" || formData.get("isActive") === "on",
     }
 
     const validatedData = signUpSchema.parse(data)
@@ -61,6 +63,7 @@ export async function signUpAction(formData: FormData) {
         passwordHash,
         role: validatedData.role,
         handle: validatedData.handle,
+        isActive: validatedData.isActive ?? true,
       })
       .returning()
 

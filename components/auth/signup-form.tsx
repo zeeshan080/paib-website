@@ -7,14 +7,20 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
 import { signUpAction } from "@/lib/auth/actions"
 import { useToast } from "@/hooks/use-toast"
 import { Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
 
-export function SignUpForm() {
+interface SignUpFormProps {
+  isAdmin?: boolean
+}
+
+export function SignUpForm({ isAdmin = false }: SignUpFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [role, setRole] = useState<"DEVELOPER" | "VIEWER">("VIEWER")
+  const [isActive, setIsActive] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
   const { toast } = useToast()
   const router = useRouter()
@@ -22,6 +28,9 @@ export function SignUpForm() {
   async function handleSubmit(formData: FormData) {
     setIsLoading(true)
     formData.set("role", role)
+    if (isAdmin) {
+      formData.set("isActive", isActive ? "true" : "false")
+    }
 
     try {
       const result = await signUpAction(formData)
@@ -116,8 +125,24 @@ export function SignUpForm() {
             </Select>
             <p className="text-xs text-muted-foreground">Developers can create projects and have public profiles</p>
           </div>
+          {isAdmin && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="isActive">Account Active</Label>
+                <Switch
+                  id="isActive"
+                  checked={isActive}
+                  onCheckedChange={setIsActive}
+                  disabled={isLoading}
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Toggle to create an active account or activate it later
+              </p>
+            </div>
+          )}
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Creating account..." : "Sign Up"}
+            {isLoading ? "Creating account..." : isAdmin ? "Create User" : "Sign Up"}
           </Button>
         </form>
         <div className="mt-4 text-center text-sm">

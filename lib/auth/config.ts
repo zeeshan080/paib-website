@@ -31,6 +31,12 @@ export const authOptions: NextAuthOptions = {
             return null
           }
 
+          // Check if user account is active
+          if (user.isActive === false) {
+            // Return null to prevent login for inactive accounts
+            return null
+          }
+
           const isValidPassword = await bcrypt.compare(password, user.passwordHash)
           if (!isValidPassword) {
             return null

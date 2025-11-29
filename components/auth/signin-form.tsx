@@ -10,10 +10,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast"
 import { Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
 export function SignInForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [showDeactivatedDialog, setShowDeactivatedDialog] = useState(false)
   const { toast } = useToast()
   const router = useRouter()
 
@@ -22,6 +32,25 @@ export function SignInForm() {
     try {
       const email = formData.get("email") as string
       const password = formData.get("password") as string
+
+      // Check if account is active before attempting login
+      try {
+        const checkResponse = await fetch("/api/check-user-active", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        })
+        const checkData = await checkResponse.json()
+        
+        if (checkData.exists && !checkData.isActive) {
+          setShowDeactivatedDialog(true)
+          setIsLoading(false)
+          return
+        }
+      } catch (error) {
+        // If check fails, continue with normal login attempt
+        console.error("Error checking user status:", error)
+      }
 
       const result = await signIn("credentials", {
         email,
@@ -119,6 +148,19 @@ export function SignInForm() {
           </Link>
         </div>
       </CardContent>
+      <AlertDialog open={showDeactivatedDialog} onOpenChange={setShowDeactivatedDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Account Deactivated</AlertDialogTitle>
+            <AlertDialogDescription>
+              Your account has been deactivated. Please contact the administration to reactivate your account.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setShowDeactivatedDialog(false)}>OK</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Card>
   )
 }

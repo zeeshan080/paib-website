@@ -84,6 +84,7 @@ export async function getUsersForAdmin(search?: string) {
         email: users.email,
         role: users.role,
         handle: users.handle,
+        isActive: users.isActive,
         createdAt: users.createdAt,
       })
       .from(users)
@@ -235,5 +236,18 @@ export async function deleteService(serviceId: string) {
   } catch (error) {
     console.error("Error deleting service:", error)
     throw new Error("Failed to delete service")
+  }
+}
+
+export async function toggleUserActiveStatus(userId: string, isActive: boolean) {
+  try {
+    await db
+      .update(users)
+      .set({ isActive, updatedAt: new Date() })
+      .where(eq(users.id, userId))
+    return { success: true }
+  } catch (error) {
+    console.error("Error toggling user active status:", error)
+    throw new Error("Failed to update user status")
   }
 }

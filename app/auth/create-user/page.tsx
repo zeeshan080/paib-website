@@ -1,13 +1,14 @@
 import { SignUpForm } from "@/components/auth/signup-form"
-// import { getCurrentUser } from "@/lib/auth/utils"
-// import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth/config"
+import { redirect } from "next/navigation"
 
 export default async function SignUpPage() {
-  // const user = await getCurrentUser()
+  const session = await getServerSession(authOptions)
 
-  // if (user) {
-  //   redirect("/admin")
-  // }
+  if (!session?.user || session.user.role !== "ADMIN") {
+    redirect("/unauthorized")
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-4">
@@ -16,7 +17,7 @@ export default async function SignUpPage() {
           <h1 className="text-4xl font-bold text-white mb-2">PAIB</h1>
           <p className="text-purple-200">Pakistan Artificial Intelligence Builders</p>
         </div>
-        <SignUpForm />
+        <SignUpForm isAdmin={true} />
       </div>
     </div>
   )
