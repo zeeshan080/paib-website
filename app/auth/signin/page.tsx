@@ -1,14 +1,6 @@
 import { SignInForm } from "@/components/auth/signin-form"
-import { getCurrentUser } from "@/lib/auth/utils"
-import { redirect } from "next/navigation"
 
-export default async function SignInPage() {
-  const user = await getCurrentUser()
-
-  if (user) {
-    redirect("/admin")
-  }
-
+export default function SignInPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-4">
       <div className="w-full max-w-md">

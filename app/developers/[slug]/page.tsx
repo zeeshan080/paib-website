@@ -13,12 +13,11 @@ import {
   Star,
   Code,
   Briefcase,
-  Edit,
 } from "lucide-react";
 import Link from "next/link";
 import { getDeveloperBySlug } from "@/lib/actions/developers";
-import { getCurrentUser } from "@/lib/auth/utils";
 import { MainLayout } from "@/components/layout/main-layout";
+import { EditProfileButton } from "@/components/developers/edit-profile-button";
 
 type Developer = {
   id: string;
@@ -49,10 +48,6 @@ export default async function DeveloperProfilePage({ params }: { params: Promise
   if (!developer) {
     notFound();
   }
-
-  // Get current user to check if they can edit this profile
-  const currentUser = await getCurrentUser();
-  const isOwnProfile = currentUser?.id === developer.id;
 
   return (
     <MainLayout>
@@ -140,18 +135,7 @@ export default async function DeveloperProfilePage({ params }: { params: Promise
                   </Button>
 
                   {/* Edit Profile Button - Only show if user is viewing their own profile */}
-                  {isOwnProfile && (
-                    <Button
-                      asChild
-                      variant="outline"
-                      className="w-full mt-3 border-slate-600 text-slate-300 hover:bg-slate-700 bg-transparent"
-                    >
-                      <Link href="/profile/edit">
-                        <Edit className="w-4 h-4 mr-2" />
-                        Edit Profile
-                      </Link>
-                    </Button>
-                  )}
+                  <EditProfileButton developerId={developer.id} />
                 </CardContent>
               </Card>
             </div>

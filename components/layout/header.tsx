@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 import { Menu, Bot, User, LogOut } from "lucide-react"
 import { motion } from "framer-motion"
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,7 +39,18 @@ interface HeaderProps {
   } | null
 }
 
-export function Header({ user }: HeaderProps) {
+export function Header({ user: userProp }: HeaderProps) {
+  const { data: session } = useSession()
+  
+  // Use session data if available, otherwise fall back to prop (for backward compatibility)
+  const user = session?.user ? {
+    id: session.user.id,
+    name: session.user.name,
+    email: session.user.email,
+    image: session.user.image,
+    role: session.user.role || "VIEWER",
+    handle: session.user.handle || "",
+  } : userProp
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
 
