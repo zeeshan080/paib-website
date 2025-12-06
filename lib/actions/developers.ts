@@ -14,20 +14,21 @@ export async function getDeveloperProfiles({
   offset?: number
 } = {}) {
   try {
-    const conditions = []
+    const conditions = [eq(users.isActive, true)]
 
     if (search) {
-      conditions.push(
-        or(
-          ilike(users.name, `%${search}%`),
-          ilike(developerProfiles.headline, `%${search}%`),
-          ilike(developerProfiles.bio, `%${search}%`),
-        ),
+      const searchCondition = or(
+        ilike(users.name, `%${search}%`),
+        ilike(developerProfiles.headline, `%${search}%`),
+        ilike(developerProfiles.bio, `%${search}%`),
       )
+      if (searchCondition) {
+        conditions.push(searchCondition)
+      }
     }
 
     // Build the query
-    let query = db
+    const query = db
       .select({
         id: developerProfiles.userId,
         name: users.name,
@@ -43,10 +44,7 @@ export async function getDeveloperProfiles({
       })
       .from(developerProfiles)
       .leftJoin(users, eq(developerProfiles.userId, users.id))
-
-    if (conditions.length > 0) {
-      query = query.where(and(...conditions))
-    }
+      .where(and(...conditions))
 
     const result = await query
       .orderBy(users.name)
@@ -81,7 +79,7 @@ export async function getDeveloperBySlug(slug: string) {
       })
       .from(developerProfiles)
       .leftJoin(users, eq(developerProfiles.userId, users.id))
-      .where(eq(users.handle, slug))
+      .where(and(eq(users.handle, slug), eq(users.isActive, true)))
       .limit(1)
 
     if (result.length === 0) {
